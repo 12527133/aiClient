@@ -3,7 +3,11 @@ import React from "react";
 
 const { create } = XRequest({
   baseURL: "https://api.siliconflow.cn/v1/chat/completions",
+  // dangerouslyApiKey: `Bearer sk-vzuijnrppxxjugvnoapfgeaznkkhnetxqconuxoaxbqtfeys`, //这里 apikey 有的需要加Bearer
   model: "deepseek-ai/DeepSeek-V3",
+
+  /**  
+   * 自定义fetch 请求
   fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => {
     // 添加自定义 headers
     const headers = new Headers(init?.headers || {});
@@ -11,23 +15,24 @@ const { create } = XRequest({
       "Authorization",
       `Bearer sk-vzuijnrppxxjugvnoapfgeaznkkhnetxqconuxoaxbqtfeys`
     );
-    // headers.append("Content-Type", "application/json");
     // 返回 fetch 请求
     return fetch(input, {
       ...init,
       headers,
     });
   },
-  // fetch: async (baseURL: any, options: any) => {
-  //   const response = await fetch(baseURL, {
-  //     ...options,
-  //     headers: {
-  //       Authorization: `Bearer sk-vzuijnrppxxjugvnoapfgeaznkkhnetxqconuxoaxbqtfeys`,
-  //       ...options.headers,
-  //     },
-  //   });
-  //   return response;
-  // },
+  */
+
+  fetch: async (baseURL: any, options: any) => {
+    const response = fetch(baseURL, {
+      ...options,
+      headers: {
+        Authorization: `Bearer sk-vzuijnrppxxjugvnoapfgeaznkkhnetxqconuxoaxbqtfeys`,
+        ...options.headers,
+      },
+    });
+    return response;
+  },
 });
 
 const Component: React.FC = () => {
